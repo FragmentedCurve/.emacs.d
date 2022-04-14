@@ -107,27 +107,6 @@
     (define-key emacs-lisp-mode-map (kbd "C-c C-z") #'ielm-repl)
     (defalias 'lisp-interaction-mode 'emacs-lisp-mode)))
 
-(use-package evil
-  :init
-  (setf evil-want-C-u-scroll t)
-  :config
-  (evil-mode)
-  (defvar my-leader-map
-    (let ((map (make-sparse-keymap)))
-      (prog1 map
-        (define-key map "w" 'elfeed))))
-  (define-key evil-normal-state-map "\\" my-leader-map)
-  (add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
-  (add-to-list 'evil-emacs-state-modes 'elfeed-show-mode)
-  (add-to-list 'evil-emacs-state-modes 'special-mode)
-  (add-to-list 'evil-emacs-state-modes 'youtube-dl-list-mode)
-  (add-to-list 'evil-emacs-state-modes 'process-menu-mode)
-  (evil-select-search-module 'evil-search-module 'evil-search)
-  (setf evil-ex-search-highlight-all nil)
-  (add-hook 'with-editor-mode-hook 'evil-insert-state)
-  (add-hook 'emacs-lisp-mode-hook (lambda () (modify-syntax-entry ?- "w")))
-  (add-hook 'c-mode-common-hook (lambda () (modify-syntax-entry ?_ "w"))))
-
 (use-package time
   :config
   (progn
