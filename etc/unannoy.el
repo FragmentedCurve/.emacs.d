@@ -66,6 +66,9 @@
       scroll-conservatively most-positive-fixnum
       scroll-preserve-screen-position t)
 
+;; Show line numbers
+(global-linum-mode 1)
+
 (provide 'unannoy)
 
 ;;; unannoy.el ends here
