@@ -25,6 +25,10 @@
 (setf package-enable-at-startup nil)
 (require 'use-package)
 
+;; Let's use the MELPA archive
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+
 ;; "Local" packages
 (require 'unannoy)
 (require 'extras)
@@ -182,18 +186,21 @@
   (define-key help-mode-map (kbd "f") #'push-first-button))
 
 (use-package elfeed-org
+  :ensure t
   :init
   (elfeed-org)
   :config
   (setq rmh-elfeed-org-files (list "~/.emacs.d/feed.org")))
 
 (use-package org-bullets
+  :ensure t
   :hook (org-mode . (lambda () (org-bullets-mode 1)))
   :config
   (setq org-bullets-face-name (quote org-bullet-face))
   (setq org-bullets-bullet-list '("◉" "⁑" "⁂" "❖" "✮" "✱" "✸")))
 
 (use-package multiple-cursors
+  :ensure t
   :bind (("C-c m e" . 'mc/edit-lines)
          ("C-c m E" . 'mc/edit-ends-of-lines)
          ("C-c m ." . 'mc/mark-pop)
@@ -218,5 +225,11 @@
                 space-after-tab
                 space-before-tab
                 tab-mark))))
+
+(use-package magit :ensure t)
+(use-package go-mode :ensure t)
+(use-package calfw :ensure t)
+(use-package calfw-org :ensure t)
+(use-package org-caldav :ensure t)
 
 (provide 'init) ; make (require 'init) happy

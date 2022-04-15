@@ -1,5 +1,4 @@
 (require 'gpkg)
-(require 'elpa)
 
 (gpkg-config
  ("use-package" "https://github.com/jwiegley/use-package"
@@ -8,29 +7,11 @@
   "362bbe5b38353d033c5299f621fea39e2c75a5e0"  ; 3.4.0
   :removal '("^web$"))
  ("youtube-dl" "https://github.com/skeeto/youtube-dl-emacs"
-  "af877b5bc4f01c04fccfa7d47a2c328926f20ef4") ; 2018-10-12T15:08:06Z
- ("org-bullets" "https://github.com/sabof/org-bullets.git"
-  "b70ac2ec805bcb626a6e39ea696354577c681b36")
- ("dash" "https://github.com/magnars/dash.el.git"
-  "dc61f4641779616122692e34a32ba2a158ee034c")
- ("s" "https://github.com/magnars/s.el.git"
-  "08661efb075d1c6b4fa812184c1e5e90c08795a9")
- ("elfeed-org" "https://github.com/remyhonig/elfeed-org.git"
-  "268efdd0121fa61f63b722c30e0951c5d31224a4"
-  :removal '("Cask" "Makefile" "README.md"))) ; Depends on: dash, s
+  "af877b5bc4f01c04fccfa7d47a2c328926f20ef4")) ; 2018-10-12T15:08:06Z
 
 ;; Set up some extra load-path directories
 (add-to-list 'load-path (gpkg-path "lib"))
 
-;; ELPA Packages
-(elpa-config
- magit
- go-mode
- flycheck
- calfw
- calfw-org
- ada-mode
- org-caldav
- multiple-cursors)
-
-(elpa-install-packages)
+;; Let's use the MELPA archive
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
