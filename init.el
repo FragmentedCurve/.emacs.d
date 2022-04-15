@@ -181,7 +181,6 @@
   :config
   (define-key help-mode-map (kbd "f") #'push-first-button))
 
-
 (use-package elfeed-org
   :init
   (elfeed-org)
@@ -193,5 +192,31 @@
   :config
   (setq org-bullets-face-name (quote org-bullet-face))
   (setq org-bullets-bullet-list '("◉" "⁑" "⁂" "❖" "✮" "✱" "✸")))
+
+(use-package multiple-cursors
+  :bind (("C-c m e" . 'mc/edit-lines)
+         ("C-c m E" . 'mc/edit-ends-of-lines)
+         ("C-c m ." . 'mc/mark-pop)
+         ("C-c m n" . 'mc/mark-next-like-this)
+         ("C-c m A" . 'mc/mark-all-in-region)
+         ("M-<down-mouse-1>" . 'mc/add-cursor-on-click)))
+
+(use-package whitespace
+  :bind
+  (("\C-c w" . 'whitespace-mode)
+   ("\C-c r" . 'whitespace-cleanup))
+
+  :config
+  (setq whitespace-style
+        (quote (face
+                trailing
+                tabs
+                empty
+                indention
+                spaces
+                space-mark
+                space-after-tab
+                space-before-tab
+                tab-mark))))
 
 (provide 'init) ; make (require 'init) happy
