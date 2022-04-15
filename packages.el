@@ -1,4 +1,5 @@
 (require 'gpkg)
+(require 'elpa)
 
 (gpkg-config
  ("use-package" "https://github.com/jwiegley/use-package"
@@ -16,7 +17,11 @@
   "08661efb075d1c6b4fa812184c1e5e90c08795a9")
  ("elfeed-org" "https://github.com/remyhonig/elfeed-org.git"
   "268efdd0121fa61f63b722c30e0951c5d31224a4"
-  :removal '("Cask" "Makefile" "README.md"))) ; Depends: dash s
+  :removal '("Cask" "Makefile" "README.md"))) ; Depends on: dash, s
 
 ;; Set up some extra load-path directories
 (add-to-list 'load-path (gpkg-path "lib"))
+
+;; ELPA Packages
+(elpa-config magit go-mode flycheck)
+(elpa-install-packages)
