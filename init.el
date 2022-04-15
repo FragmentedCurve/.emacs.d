@@ -190,7 +190,7 @@
   :init
   (elfeed-org)
   :config
-  (setq rmh-elfeed-org-files (list "~/.emacs.d/feed.org")))
+  (setq rmh-elfeed-org-files (list "~/.feed.org")))
 
 (use-package org-bullets
   :ensure t
