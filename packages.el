@@ -23,5 +23,14 @@
 (add-to-list 'load-path (gpkg-path "lib"))
 
 ;; ELPA Packages
-(elpa-config magit go-mode flycheck)
+(elpa-config
+ magit
+ go-mode
+ flycheck
+ calfw
+ calfw-org
+ ada-mode
+ org-caldav
+ multiple-cursors)
+
 (elpa-install-packages)
