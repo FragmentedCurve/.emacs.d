@@ -90,7 +90,9 @@
 
 (use-package youtube-dl
   :defer t
-  :bind ("C-x y" . youtube-dl-list))
+  :bind ("C-x y" . youtube-dl-list)
+  :config
+  (setq youtube-dl-program "yt-dlp")) ; yt-dlp is much faster
 
 (use-package lisp-mode
   :defer t
