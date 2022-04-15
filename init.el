@@ -180,4 +180,17 @@
   :config
   (define-key help-mode-map (kbd "f") #'push-first-button))
 
+
+(use-package elfeed-org
+  :init
+  (elfeed-org)
+  :config
+  (setq rmh-elfeed-org-files (list "~/.emacs.d/etc/feed.org")))
+
+(use-package org-bullets
+  :hook (org-mode . (lambda () (org-bullets-mode 1)))
+  :config
+  (setq org-bullets-face-name (quote org-bullet-face))
+  (setq org-bullets-bullet-list '("◉" "⁑" "⁂" "❖" "✮" "✱" "✸")))
+
 (provide 'init) ; make (require 'init) happy
