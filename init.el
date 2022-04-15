@@ -186,7 +186,7 @@
   :init
   (elfeed-org)
   :config
-  (setq rmh-elfeed-org-files (list "~/.emacs.d/etc/feed.org")))
+  (setq rmh-elfeed-org-files (list "~/.emacs.d/feed.org")))
 
 (use-package org-bullets
   :hook (org-mode . (lambda () (org-bullets-mode 1)))
