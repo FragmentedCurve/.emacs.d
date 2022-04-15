@@ -11,7 +11,3 @@
 
 ;; Set up some extra load-path directories
 (add-to-list 'load-path (gpkg-path "lib"))
-
-;; Let's use the MELPA archive
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))

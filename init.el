@@ -24,6 +24,7 @@
 (require 'autoloads)
 (setf package-enable-at-startup nil)
 (require 'use-package)
+(require 'package)
 
 ;; Let's use the MELPA archive
 (add-to-list 'package-archives
