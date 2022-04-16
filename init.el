@@ -234,10 +234,23 @@
   :config
   (setq org-directory "~/org")
   (setq org-default-notes-file (concat org-directory "/notes.org")))
+
+(use-package org-caldav
+  :ensure t
+  :bind ("C-c u" . 'org-caldav-sync)
+  :config
+  (setq org-caldav-url "https://dav.privateemail.com/caldav/")
+  (setq org-caldav-calendars
+	'((:calendar-id "Y2FsOi8vMC8yNg"
+			:files ("~/org/Calendar.org")
+			:inbox "~/org/Calendar.org")
+	  (:calendar-id "Mjg"
+			:files ("~/org/Tasks.org")
+			:inbox "~/org/Tasks.org"))))
 (use-package magit :ensure t)
 (use-package go-mode :ensure t)
 (use-package calfw :ensure t)
 (use-package calfw-org :ensure t)
-(use-package org-caldav :ensure t)
+
 
 (provide 'init) ; make (require 'init) happy
