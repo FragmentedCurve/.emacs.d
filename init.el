@@ -247,9 +247,14 @@
 	  (:calendar-id "Mjg"
 			:files ("~/org/Tasks.org")
 			:inbox "~/org/Tasks.org"))))
+
+(use-package calfw
+  :ensure t
+  :config
+  (defalias 'ca 'cfw:open-org-calendar))
+
 (use-package magit :ensure t)
 (use-package go-mode :ensure t)
-(use-package calfw :ensure t)
 (use-package calfw-org :ensure t)
 
 
