@@ -255,7 +255,7 @@
 
 (use-package magit
   :ensure t
-  :bind ("C-c m" . 'magit))
+  :bind ("M-SPC" . 'magit))
 
 (use-package go-mode :ensure t)
 (use-package calfw-org :ensure t)
