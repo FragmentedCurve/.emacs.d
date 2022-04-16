@@ -258,6 +258,12 @@
   :ensure t
   :bind ("M-SPC" . 'magit))
 
+(use-package term
+  :bind ("M-t" . (lambda ()
+                   (interactive)
+                   (term shell-file-name))))
+
+
 (use-package go-mode :ensure t)
 (use-package calfw-org :ensure t)
 
