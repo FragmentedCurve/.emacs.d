@@ -240,12 +240,16 @@
   :ensure t
   :bind ("C-c u" . 'org-caldav-sync)
   :config
-  (setq org-caldav-url "https://dav.privateemail.com/caldav/")
+  (setq
+   org-caldav-url "https://dav.privateemail.com/caldav/"
+   org-icalendar-include-todo t
+   org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
+   org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
+   org-icalendar-with-timestamps t)
   (setq org-caldav-calendars
 	'((:calendar-id "Y2FsOi8vMC8yNg"
-			:files ("~/.calendar.org")
+			:files ("~/.calendar.org" "~/.tasks.org")
 			:inbox "~/.calendar.org"))))
-
 
 (use-package calfw
   :ensure t
@@ -260,7 +264,6 @@
   :bind ("M-t" . (lambda ()
                    (interactive)
                    (term shell-file-name))))
-
 
 (use-package go-mode :ensure t)
 (use-package calfw-org :ensure t)
