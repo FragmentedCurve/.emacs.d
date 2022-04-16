@@ -253,7 +253,10 @@
   :config
   (defalias 'ca 'cfw:open-org-calendar))
 
-(use-package magit :ensure t)
+(use-package magit
+  :ensure t
+  :bind ("C-c m" . 'magit))
+
 (use-package go-mode :ensure t)
 (use-package calfw-org :ensure t)
 
