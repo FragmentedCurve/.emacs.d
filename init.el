@@ -243,11 +243,9 @@
   (setq org-caldav-url "https://dav.privateemail.com/caldav/")
   (setq org-caldav-calendars
 	'((:calendar-id "Y2FsOi8vMC8yNg"
-			:files ("~/org/Calendar.org")
-			:inbox "~/org/Calendar.org")
-	  (:calendar-id "Mjg"
-			:files ("~/org/Tasks.org")
-			:inbox "~/org/Tasks.org"))))
+			:files ("~/.calendar.org")
+			:inbox "~/.calendar.org"))))
+
 
 (use-package calfw
   :ensure t
