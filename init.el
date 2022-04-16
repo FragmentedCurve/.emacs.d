@@ -232,8 +232,9 @@
          ("C-c a" . 'org-agenda)
          ("C-c c" . 'org-capture))
   :config
-  (setq org-directory "~/org")
-  (setq org-default-notes-file (concat org-directory "/notes.org")))
+  (setq org-agenda-files '("~/.tasks.org"
+                           "~/.calendar.org"))
+  (setq org-default-notes-file "~/.notes.org"))
 
 (use-package org-caldav
   :ensure t
