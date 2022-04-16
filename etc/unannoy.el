@@ -40,8 +40,9 @@
 (run-at-time 0 nil (lambda ()
 		     (setq-default lexical-binding t)))
 
-;; Tabs suck
-(setq-default indent-tabs-mode nil)
+;; Sorry skeeto, tabs > spaces
+(setq-default indent-tabs-mode t)
+(setq-default tab-width 4)
 
 ;; I hate typing
 (defalias 'yes-or-no-p 'y-or-n-p)
