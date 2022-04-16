@@ -227,6 +227,13 @@
                 space-before-tab
                 tab-mark))))
 
+(use-package org
+  :bind (("C-c l" . 'org-store-link)
+         ("C-c a" . 'org-agenda)
+         ("C-c c" . 'org-capture))
+  :config
+  (setq org-directory "~/org")
+  (setq org-default-notes-file (concat org-directory "/notes.org")))
 (use-package magit :ensure t)
 (use-package go-mode :ensure t)
 (use-package calfw :ensure t)
