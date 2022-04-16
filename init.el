@@ -230,7 +230,8 @@
 (use-package org
   :bind (("C-c l" . 'org-store-link)
          ("C-c a" . 'org-agenda)
-         ("C-c c" . 'org-capture))
+         ("C-c c" . 'org-capture)
+         ("C-c F" . 'org-force-cycle-archived))
   :config
   (setq org-agenda-files '("~/.tasks.org"
                            "~/.calendar.org"))
