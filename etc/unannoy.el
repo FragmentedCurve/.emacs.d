@@ -42,7 +42,7 @@
 
 ;; Sorry skeeto, tabs > spaces
 (setq-default indent-tabs-mode t)
-(setq-default tab-width 4)
+(setq-default tab-width 8)
 
 ;; I hate typing
 (defalias 'yes-or-no-p 'y-or-n-p)
