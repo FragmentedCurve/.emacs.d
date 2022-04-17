@@ -268,6 +268,7 @@
 
 (use-package c-mode ; Is this the correct package name?
   ;; Reference: https://www.kernel.org/doc/html/v4.10/process/coding-style.html#you-ve-made-a-mess-of-it
+  :mode "\\.c\\'"
   :init
   (defun c-lineup-arglist-tabs-only (ignored)
     "Line up argument lists by tabs, not spaces"
