@@ -233,9 +233,11 @@
          ("C-c c" . 'org-capture)
          ("C-c F" . 'org-force-cycle-archived))
   :config
-  (setq org-agenda-files '("~/.tasks.org"
-                           "~/.calendar.org"))
-  (setq org-default-notes-file "~/.notes.org"))
+  (setq
+   org-agenda-files '("~/.tasks.org" "~/.calendar.org")
+   org-default-notes-file "~/.notes.org"
+   org-startup-indented t
+   org-export-allow-bind-keywords t))
 
 (use-package org-caldav
   :ensure t
