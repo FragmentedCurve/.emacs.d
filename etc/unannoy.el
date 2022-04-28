@@ -30,8 +30,7 @@
   (set-horizontal-scroll-bar-mode nil))
 
 ;; Do sensible clipboard things, please
-(setf select-enable-clipboard nil
-      select-enable-primary t
+(setf select-enable-primary t
       mouse-drag-copy-region t
       mouse-yank-at-point t)
 
