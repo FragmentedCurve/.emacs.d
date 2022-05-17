@@ -163,8 +163,8 @@
   :init
   (setf url-cache-directory (locate-user-emacs-file "local/url"))
   :config
-  (when (executable-find "firefox")
-    (setf browse-url-browser-function #'browse-url-firefox)))
+  (when (executable-find "surf")
+    (setq browse-url-generic-program (executable-find "surf"))))
 
 (use-package uuid-simple
   :demand t
