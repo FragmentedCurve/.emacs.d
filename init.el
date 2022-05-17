@@ -97,7 +97,8 @@
   :defer t
   :bind ("C-x y" . youtube-dl-list)
   :config
-  (setq youtube-dl-program "yt-dlp")) ; yt-dlp is much faster
+  (setq youtube-dl-program "yt-dlp" ; yt-dlp is much faster
+	youtube-dl-directory "~/youtube/"))
 
 (use-package lisp-mode
   :defer t
