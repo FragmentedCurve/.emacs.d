@@ -269,7 +269,7 @@
                    (interactive)
                    (term shell-file-name))))
 
-(use-package c-mode ; Is this the correct package name?
+(use-package c-mode
   ;; Reference: https://www.kernel.org/doc/html/v4.10/process/coding-style.html#you-ve-made-a-mess-of-it
   :mode "\\.c\\'"
   :init
@@ -281,17 +281,37 @@
            (steps (floor offset c-basic-offset)))
       (* (max steps 1)
 	 c-basic-offset)))
-  :hook  (c-mode-common . (lambda ()
-				  ;; Add kernel style
-				  (c-add-style
-				   "linux-tabs-only"
-				   '("linux" (c-offsets-alist
-					      (arglist-cont-nonempty
-					       c-lineup-gcc-asm-reg
-					       c-lineup-arglist-tabs-only)))))))
+  :hook (c-mode-common . (lambda ()
+			   ;; Add kernel style
+			   (c-add-style
+			    "linux-tabs-only"
+			    '("linux" (c-offsets-alist
+				       (arglist-cont-nonempty
+					c-lineup-gcc-asm-reg
+					c-lineup-arglist-tabs-only)))))))
 
+(use-package helm
+  :ensure t
+  :bind (:map global-map
+	      ([remap find-file] . #'helm-find-files)
+	      ([remap execute-extended-command] . #'helm-M-x)
+	      ([remap switch-to-buffer] . #'helm-mini)))
+
+(use-package lsp-mode
+  :ensure t
+  :hook ((c-mode . lsp)
+	 (c++-mode . lsp)))
+
+(use-package lsp-pascal :ensure t)
+(use-package lsp-docker :ensure t)
+(use-package lsp-scheme :ensure t)
+(use-package lsp-treemacs :ensure t)
+(use-package ccls :ensure t)
+(use-package treemacs :ensure t)
 (use-package go-mode :ensure t)
 (use-package calfw-org :ensure t)
-
+(use-package markdown-mode :ensure t :defer t)
+(use-package company :ensure t)
+(use-package helm-xref :ensure t)
 
 (provide 'init) ; make (require 'init) happy
