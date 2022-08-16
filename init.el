@@ -308,12 +308,15 @@
 	 (c++-mode . lsp)
 	 (go-mode . lsp)))
 
+(use-package treemacs
+  :ensure t
+  :bind ("C-c C-t" . 'treemacs))
+
 (use-package lsp-pascal :ensure t)
 (use-package lsp-docker :ensure t)
 (use-package lsp-scheme :ensure t)
 (use-package lsp-treemacs :ensure t)
 (use-package ccls :ensure t)
-(use-package treemacs :ensure t)
 (use-package go-mode :ensure t)
 (use-package calfw-org :ensure t)
 (use-package markdown-mode :ensure t :defer t)
