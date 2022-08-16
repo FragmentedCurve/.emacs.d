@@ -295,12 +295,18 @@
   :bind (:map global-map
 	      ([remap find-file] . #'helm-find-files)
 	      ([remap execute-extended-command] . #'helm-M-x)
-	      ([remap switch-to-buffer] . #'helm-mini)))
+	      ([remap switch-to-buffer] . #'helm-mini))
+  :init (helm-mode))
+
+(use-package which-key
+  :ensure t
+  :init (which-key-mode))
 
 (use-package lsp-mode
   :ensure t
   :hook ((c-mode . lsp)
-	 (c++-mode . lsp)))
+	 (c++-mode . lsp)
+	 (go-mode . lsp)))
 
 (use-package lsp-pascal :ensure t)
 (use-package lsp-docker :ensure t)
