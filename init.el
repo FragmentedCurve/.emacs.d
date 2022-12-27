@@ -312,6 +312,12 @@
   :ensure t
   :bind ("C-c C-t" . 'treemacs))
 
+(use-package html-mode
+  :defer t
+  :hook (html-mode-hook . (lambda()
+			    (setq sgml-basic-offset 4)
+			    (setq indent-tabs-mode t))))
+
 (use-package lsp-pascal :ensure t)
 (use-package lsp-docker :ensure t)
 (use-package lsp-scheme :ensure t)
