@@ -198,8 +198,8 @@
   :ensure t
   :hook (org-mode . (lambda () (org-bullets-mode 1)))
   :config
-  (setq org-bullets-face-name (quote org-bullet-face))
-  (setq org-bullets-bullet-list '("◉" "⁑" "⁂" "❖" "✮" "✱" "✸")))
+  (setq org-bullets-face-name 'org-bullet-face
+	org-bullets-bullet-list '("◉" "⁑" "⁂" "❖" "✮" "✱" "✸")))
 
 (use-package multiple-cursors
   :ensure t
@@ -217,16 +217,16 @@
 
   :config
   (setq whitespace-style
-        (quote (face
-                trailing
-                tabs
-                empty
-                indention
-                spaces
-                space-mark
-                space-after-tab
-                space-before-tab
-                tab-mark))))
+        '(face
+          trailing
+          tabs
+          empty
+          indention
+          spaces
+          space-mark
+          space-after-tab
+          space-before-tab
+          tab-mark)))
 
 (use-package org
   :bind (("C-c l" . 'org-store-link)
