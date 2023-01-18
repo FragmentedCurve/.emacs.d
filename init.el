@@ -122,7 +122,7 @@
           display-time-24hr-format t)
     (display-time-mode t)))
 
-(use-package modus-vivendi-theme
+(use-package modus-themes
   :ensure t
   :config
   (load-theme 'modus-vivendi t)
