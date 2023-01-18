@@ -188,6 +188,18 @@
   :config
   (define-key help-mode-map (kbd "f") #'push-first-button))
 
+(use-package password-store
+  ;; OS Dependency: password-store (aka pass)
+  :ensure t
+  :demand t
+  :bind ("C-c M-p" . password-store-copy))
+
+(use-package auth-source
+  ;; Reference: https://www.gnu.org/software/emacs/manual/html_node/auth/The-Unix-password-store.html
+  :config (setq auth-sources '(password-store)
+		auth-source-pass-filename "~/.password-store"   ; Defaults to ~/.password-store.
+		auth-source-pass-port-separator ":"))           ; Defaults to ":".
+
 (use-package elfeed-org
   ;; Organize elfeed feeds with an org-mode document.
   :ensure t
