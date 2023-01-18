@@ -86,6 +86,7 @@
             ("\\.gif\\'" "animate")))))
 
 (use-package elfeed
+  ;; RSS reader.
   :defer t
   :bind ("C-x w" . elfeed)
   :init (setf url-queue-timeout 30)
@@ -188,6 +189,7 @@
   (define-key help-mode-map (kbd "f") #'push-first-button))
 
 (use-package elfeed-org
+  ;; Organize elfeed feeds with an org-mode document.
   :ensure t
   :init
   (elfeed-org)
@@ -195,6 +197,7 @@
   (setq rmh-elfeed-org-files (list "~/.feed.org")))
 
 (use-package org-bullets
+  ;; Replace the asterisks for org-mode sections with pretty bullets.
   :ensure t
   :hook (org-mode . (lambda () (org-bullets-mode 1)))
   :config
@@ -212,9 +215,8 @@
 
 (use-package whitespace
   :bind
-  (("\C-c w" . 'whitespace-mode)
-   ("\C-c r" . 'whitespace-cleanup))
-
+  (("\C-c w" . 'whitespace-mode)     ; Show whitespace in buffer.
+   ("\C-c r" . 'whitespace-cleanup)) ; Remove the trailing and leading whitespace.
   :config
   (setq whitespace-style
         '(face
@@ -261,6 +263,7 @@
   (defalias 'ca 'cfw:open-org-calendar))
 
 (use-package magit
+  ;; Git frontend.
   :ensure t
   :bind ("M-SPC" . 'magit))
 
@@ -291,6 +294,8 @@
 					c-lineup-arglist-tabs-only)))))))
 
 (use-package helm
+  ;; For completions and selectiongs of filenames, buffer names,
+  ;; commands, etc.
   :ensure t
   :bind (:map global-map
 	      ([remap find-file] . #'helm-find-files)
@@ -299,24 +304,31 @@
   :init (helm-mode))
 
 (use-package which-key
+  ;; Helps complete a command by showing possible key-combos that
+  ;; complete a command sequence.
   :ensure t
   :init (which-key-mode))
 
 (use-package lsp-mode
+  ;; Provides the language server protocol.
   :ensure t
   :hook ((c-mode . lsp)
 	 (c++-mode . lsp)
-	 (go-mode . lsp)))
+	 (go-mode . lsp))) ; OS Dependency: gopls
 
 (use-package treemacs
+  ;; IDE-like project directories & workspaces. 
   :ensure t
-  :bind ("C-c C-t" . 'treemacs))
+  :bind ("C-c C-t" . 'treemacs)) ; FIXME: This binding conflicts with other modes.
 
 (use-package html-mode
   :defer t
   :hook (html-mode-hook . (lambda()
 			    (setq sgml-basic-offset 4)
 			    (setq indent-tabs-mode t))))
+
+
+;; "Ensure" the following packages are installed.
 
 (use-package lsp-pascal :ensure t)
 (use-package lsp-docker :ensure t)
