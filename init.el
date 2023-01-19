@@ -360,6 +360,16 @@
 	  (:maildir "/OpenBSD/tech" :key ?O)))
   (setq mu4e-get-mail-command "mbsync privateemail"))
 
+(use-package smtpmail
+  :defer t
+  :config
+  (setq message-send-mail-function 'smtpmail-send-it
+	smtpmail-smtp-user (password-store-get-field "Emacs/smtpmail" "smtpmail-smtp-user")
+        user-mail-address (password-store-get-field "Emacs/smtpmail" "user-mail-address")
+        smtpmail-stream-type  'ssl
+        smtpmail-smtp-server (password-store-get-field "Emacs/smtpmail" "smtpmail-smtp-server")
+        smtpmail-smtp-service 465))
+
 ;; "Ensure" the following packages are installed.
 
 (use-package lsp-pascal :ensure t)
