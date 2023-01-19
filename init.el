@@ -349,16 +349,17 @@
   :config
   (setq mail-user-agent 'mu4e-user-agent
 	user-full-name (password-store-get-field "Emacs/mu4e" "user-full-name")
-	user-mail-address (password-store-get-field "Emacs/mu4e" "user-mail-address")
 	mu4e-compose-reply-to-address (password-store-get-field "Emacs/mu4e" "mu4e-compose-reply-to-address"))
   (setq mu4e-sent-folder   "/Sent"
 	mu4e-drafts-folder "/Drafts"
-	mu4e-trash-folder  "/Trash")
+	mu4e-trash-folder  "/Trash"
+	mu4e-refile-folder "/Archive")
   (setq mu4e-maildir-shortcuts
 	'((:maildir "/INBOX"   :key ?i)
 	  (:maildir "/Sent"    :key ?s)
 	  (:maildir "/OpenBSD/tech" :key ?O)))
-  (setq mu4e-get-mail-command "mbsync privateemail"))
+  (setq mu4e-get-mail-command "mbsync privateemail")
+  (setq mu4e-user-mail-address-list (list (password-store-get-field "Emacs/mu4e" "user-mail-address"))))
 
 (use-package smtpmail
   :defer t
