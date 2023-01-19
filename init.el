@@ -384,5 +384,6 @@
 (use-package markdown-mode :ensure t :defer t)
 (use-package company :ensure t)
 (use-package helm-xref :ensure t)
+(use-package khardel :ensure t :defer t)
 
 (provide 'init) ; make (require 'init) happy
