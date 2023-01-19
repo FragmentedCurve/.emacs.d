@@ -68,6 +68,30 @@
 
 ;;; Individual package configurations
 
+;; Configure security packages first
+
+(use-package pinentry
+  ;; Needed for password-store & auth-source.
+  ;; Reference: https://a3nm.net/git/mybin/file/my-pinentry.html
+  :ensure t
+  :init
+  (setenv "PINENTRY_USER_DATA" "emacs") ; This tells the pinentry wrapper to use /usr/bin/pinentry-emacs
+  (pinentry-start))
+
+(use-package password-store
+  ;; OS Dependency: password-store (aka pass)
+  :ensure t
+  :demand t
+  :bind ("C-c M-p" . password-store-copy))
+
+(use-package auth-source
+  ;; Reference: https://www.gnu.org/software/emacs/manual/html_node/auth/The-Unix-password-store.html
+  :config (setq auth-sources '(password-store)
+		auth-source-pass-filename "~/.password-store"   ; Defaults to ~/.password-store.
+		auth-source-pass-port-separator ":"))           ; Defaults to ":".
+
+;; End security packages
+
 (use-package dabbrev
   :defer t
   :init (setf abbrev-file-name (locate-user-emacs-file "local/abbrev_defs"))
@@ -177,26 +201,6 @@
   :defer t
   :config
   (define-key help-mode-map (kbd "f") #'push-first-button))
-
-(use-package pinentry
-  ;; Needed for password-store & auth-source.
-  ;; Reference: https://a3nm.net/git/mybin/file/my-pinentry.html
-  :ensure t
-  :init
-  (setenv "PINENTRY_USER_DATA" "emacs") ; This tells the pinentry wrapper to use /usr/bin/pinentry-emacs
-  (pinentry-start))
-
-(use-package password-store
-  ;; OS Dependency: password-store (aka pass)
-  :ensure t
-  :demand t
-  :bind ("C-c M-p" . password-store-copy))
-
-(use-package auth-source
-  ;; Reference: https://www.gnu.org/software/emacs/manual/html_node/auth/The-Unix-password-store.html
-  :config (setq auth-sources '(password-store)
-		auth-source-pass-filename "~/.password-store"   ; Defaults to ~/.password-store.
-		auth-source-pass-port-separator ":"))           ; Defaults to ":".
 
 (use-package elfeed-org
   ;; Organize elfeed feeds with an org-mode document.
