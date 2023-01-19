@@ -347,6 +347,7 @@
 (use-package mu4e
   :bind ("C-c M-m" . 'mu4e)
   :config
+  (setq user-mail-address (list (password-store-get-field "Emacs/mu4e" "user-mail-address")))
   (setq mail-user-agent 'mu4e-user-agent
 	user-full-name (password-store-get-field "Emacs/mu4e" "user-full-name")
 	mu4e-compose-reply-to-address (password-store-get-field "Emacs/mu4e" "mu4e-compose-reply-to-address"))
@@ -358,8 +359,8 @@
 	'((:maildir "/INBOX"   :key ?i)
 	  (:maildir "/Sent"    :key ?s)
 	  (:maildir "/OpenBSD/tech" :key ?O)))
-  (setq mu4e-get-mail-command "mbsync privateemail")
-  (setq mu4e-user-mail-address-list (list (password-store-get-field "Emacs/mu4e" "user-mail-address"))))
+  (setq mu4e-get-mail-command "mbsync privateemail"))
+
 
 (use-package smtpmail
   :defer t
