@@ -259,12 +259,18 @@
   :ensure t
   :bind ("C-c u" . 'org-caldav-sync)
   :config
-  (setq org-caldav-url "https://dav.privateemail.com/caldav/"
+  ;; TODO: Make a macro or function wrapper around password-store-get-field.
+  ;;
+  ;;       Example: (pass-emacs 'org-caldav-url)
+  ;;                (pass-emacs org-caldav 'org-caldav-url)
+  ;;
+  ;;      The first should somehow figure out the package via use-package.
+  (setq org-caldav-url (password-store-get-field "Emacs/org-caldav" "org-caldav-url")
 	org-icalendar-include-todo t
 	org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
 	org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
 	org-icalendar-with-timestamps t
-	org-caldav-calendars '((:calendar-id "Y2FsOi8vMC8yNg"
+	org-caldav-calendars `((:calendar-id ,(password-store-get-field "Emacs/org-caldav" "calendar-id")
 					     :files ("~/.calendar.org" "~/.tasks.org")
 					     :inbox "~/.calendar.org"))))
 
