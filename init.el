@@ -230,17 +230,16 @@
   (("\C-c w" . 'whitespace-mode)     ; Show whitespace in buffer.
    ("\C-c r" . 'whitespace-cleanup)) ; Remove the trailing and leading whitespace.
   :config
-  (setq whitespace-style
-        '(face
-          trailing
-          tabs
-          empty
-          indention
-          spaces
-          space-mark
-          space-after-tab
-          space-before-tab
-          tab-mark)))
+  (setq whitespace-style '(face
+			   trailpassing
+			   tabs
+			   empty
+			   indention
+			   spaces
+			   space-mark
+			   space-after-tab
+			   space-before-tab
+			   tab-mark)))
 
 (use-package org
   :bind (("C-c l" . 'org-store-link)
@@ -248,26 +247,24 @@
          ("C-c c" . 'org-capture)
          ("C-c F" . 'org-force-cycle-archived))
   :config
-  (setq
-   org-agenda-files '("~/.tasks.org" "~/.calendar.org")
-   org-default-notes-file "~/.notes.org"
-   org-startup-indented t
-   org-export-allow-bind-keywords t))
+  (setq org-agenda-files '("~/.tasks.org" "~/.calendar.org")
+	org-default-notes-file "~/.notes.org"
+	org-startup-indented t
+	org-link-abbrev-alist '(("task" . "~/.tasks.org::")
+				("cal" . "~/.calendar.org::"))))
 
 (use-package org-caldav
   :ensure t
   :bind ("C-c u" . 'org-caldav-sync)
   :config
-  (setq
-   org-caldav-url "https://dav.privateemail.com/caldav/"
-   org-icalendar-include-todo t
-   org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
-   org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
-   org-icalendar-with-timestamps t)
-  (setq org-caldav-calendars
-	'((:calendar-id "Y2FsOi8vMC8yNg"
-			:files ("~/.calendar.org" "~/.tasks.org")
-			:inbox "~/.calendar.org"))))
+  (setq org-caldav-url "https://dav.privateemail.com/caldav/"
+	org-icalendar-include-todo t
+	org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
+	org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
+	org-icalendar-with-timestamps t
+	org-caldav-calendars '((:calendar-id "Y2FsOi8vMC8yNg"
+					     :files ("~/.calendar.org" "~/.tasks.org")
+					     :inbox "~/.calendar.org"))))
 
 (use-package calfw
   :ensure t
