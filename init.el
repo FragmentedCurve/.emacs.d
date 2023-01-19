@@ -328,7 +328,7 @@
 (use-package treemacs
   ;; IDE-like project directories & workspaces. 
   :ensure t
-  :bind ("C-c C-t" . 'treemacs)) ; FIXME: This binding conflicts with other modes.
+  :bind ("C-c M-t" . 'treemacs))
 
 (use-package html-mode
   :defer t
