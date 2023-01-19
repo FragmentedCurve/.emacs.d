@@ -173,16 +173,6 @@
   :bind ("C-x !" . uuid-insert)
   :config (random (make-uuid)))
 
-(use-package jekyll
-  :demand t
-  :functions httpd-send-header
-  :config
-  (progn
-    (setf jekyll-home "~/src/skeeto.github.com/")
-    (when (file-exists-p jekyll-home)
-      (ignore-errors
-        (jekyll/start)))))
-
 (use-package help-mode
   :defer t
   :config
