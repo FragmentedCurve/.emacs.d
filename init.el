@@ -344,6 +344,21 @@
 			    (setq sgml-basic-offset 4)
 			    (setq indent-tabs-mode t))))
 
+(use-package mu4e
+  :bind ("C-c M-m" . 'mu4e)
+  :config
+  (setq mail-user-agent 'mu4e-user-agent
+	user-full-name (password-store-get-field "Emacs/mu4e" "user-full-name")
+	user-mail-address (password-store-get-field "Emacs/mu4e" "user-mail-address")
+	mu4e-compose-reply-to-address (password-store-get-field "Emacs/mu4e" "mu4e-compose-reply-to-address"))
+  (setq mu4e-sent-folder   "/Sent"
+	mu4e-drafts-folder "/Drafts"
+	mu4e-trash-folder  "/Trash")
+  (setq mu4e-maildir-shortcuts
+	'((:maildir "/INBOX"   :key ?i)
+	  (:maildir "/Sent"    :key ?s)
+	  (:maildir "/OpenBSD/tech" :key ?O)))
+  (setq mu4e-get-mail-command "mbsync privateemail"))
 
 ;; "Ensure" the following packages are installed.
 
