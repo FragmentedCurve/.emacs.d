@@ -275,7 +275,6 @@
 
 (use-package magit
   ;; Git frontend.
-  :ensure t
   :bind ("M-SPC" . 'magit))
 
 (use-package term
