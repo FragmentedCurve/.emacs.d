@@ -70,6 +70,8 @@
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
 
+;; Set spell checker to aspell
+(setq ispell-program-name "aspell")
 
 (defun current-line-empty-p ()
   (save-excursion
