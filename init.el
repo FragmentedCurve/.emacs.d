@@ -90,6 +90,11 @@
 		auth-source-pass-filename "~/.password-store"   ; Defaults to ~/.password-store.
 		auth-source-pass-port-separator ":"))           ; Defaults to ":".
 
+(defun secure-set (var) (set var (secure-get var)))
+(defun secure-get (var) (password-store-get-field "emacs" (symbol-name var)))
+;(defmacro secure-getq (var) (secure-get ,var))
+;(defmacro secure-setq (var) (secure-set ,var))
+
 ;; End security packages
 
 (use-package dabbrev
@@ -259,18 +264,12 @@
   :ensure t
   :bind ("C-c u" . 'org-caldav-sync)
   :config
-  ;; TODO: Make a macro or function wrapper around password-store-get-field.
-  ;;
-  ;;       Example: (pass-emacs 'org-caldav-url)
-  ;;                (pass-emacs org-caldav 'org-caldav-url)
-  ;;
-  ;;      The first should somehow figure out the package via use-package.
-  (setq org-caldav-url (password-store-get-field "Emacs/org-caldav" "org-caldav-url")
-	org-icalendar-include-todo t
+  (secure-set 'org-caldav-url)
+  (setq org-icalendar-include-todo t
 	org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
 	org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
 	org-icalendar-with-timestamps t
-	org-caldav-calendars `((:calendar-id ,(password-store-get-field "Emacs/org-caldav" "calendar-id")
+	org-caldav-calendars `((:calendar-id ,(secure-get 'calendar-id)
 					     :files ("~/.calendar.org" "~/.tasks.org")
 					     :inbox "~/.calendar.org"))))
 
@@ -329,9 +328,12 @@
 (use-package lsp-mode
   ;; Provides the language server protocol.
   :ensure t
-  :hook ((c-mode . lsp)
+  :hook ((c-mode   . lsp)
 	 (c++-mode . lsp)
-	 (go-mode . lsp))) ; OS Dependency: gopls
+	 (go-mode  . lsp)) ; OS Dependency: gopls
+  :config
+  (setq lsp-enable-on-type-formatting  nil
+	lsp-enable-indentation         nil))
 
 (use-package treemacs
   ;; IDE-like project directories & workspaces. 
@@ -347,30 +349,36 @@
 (use-package mu4e
   :bind ("C-c M-m" . 'mu4e)
   :config
-  (setq user-mail-address (list (password-store-get-field "Emacs/mu4e" "user-mail-address")))
-  (setq mail-user-agent 'mu4e-user-agent
-	user-full-name (password-store-get-field "Emacs/mu4e" "user-full-name")
-	mu4e-compose-reply-to-address (password-store-get-field "Emacs/mu4e" "mu4e-compose-reply-to-address"))
+  (secure-set 'user-mail-address)
+  (secure-set 'user-full-name)
+  (setq mail-user-agent 'mu4e-user-agent)
+  (secure-set 'mu4e-compose-reply-to-address)
   (setq mu4e-sent-folder   "/Sent"
 	mu4e-drafts-folder "/Drafts"
 	mu4e-trash-folder  "/Trash"
 	mu4e-refile-folder "/Archive")
   (setq mu4e-maildir-shortcuts
 	'((:maildir "/INBOX"   :key ?i)
+	  (:maildir "/Archive"   :key ?a)
 	  (:maildir "/Sent"    :key ?s)
 	  (:maildir "/OpenBSD/tech" :key ?O)))
-  (setq mu4e-get-mail-command "mbsync privateemail"))
+  (setq mu4e-get-mail-command "mbsync privateemail"
+	mu4e-change-filenames-when-moving t))
 
 
 (use-package smtpmail
   :defer t
   :config
   (setq message-send-mail-function 'smtpmail-send-it
-	smtpmail-smtp-user (password-store-get-field "Emacs/smtpmail" "smtpmail-smtp-user")
-        user-mail-address (password-store-get-field "Emacs/smtpmail" "user-mail-address")
         smtpmail-stream-type  'ssl
-        smtpmail-smtp-server (password-store-get-field "Emacs/smtpmail" "smtpmail-smtp-server")
-        smtpmail-smtp-service 465))
+        smtpmail-smtp-service 465)
+  (secure-set 'smtpmail-smtp-user)
+  (secure-set 'smtpmail-smtp-server))
+
+(use-package slime
+  :ensure t
+  :config
+  (setq inferior-lisp-program "sbcl"))
 
 ;; "Ensure" the following packages are installed.
 
@@ -378,12 +386,13 @@
 (use-package lsp-docker :ensure t)
 (use-package lsp-scheme :ensure t)
 (use-package lsp-treemacs :ensure t)
-(use-package ccls :ensure t)
+(use-package ccls :ensure t)             ; C/C++ lsp
 (use-package go-mode :ensure t)
 (use-package calfw-org :ensure t)
 (use-package markdown-mode :ensure t :defer t)
 (use-package company :ensure t)
 (use-package helm-xref :ensure t)
-(use-package khardel :ensure t :defer t)
+(use-package khardel :ensure t :defer t) ; Contacts
+(use-package ein :ensure t)              ; For Jupyter notebooks
 
 (provide 'init) ; make (require 'init) happy

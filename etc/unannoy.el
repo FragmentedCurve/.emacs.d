@@ -67,7 +67,9 @@
       scroll-preserve-screen-position t)
 
 ;; Show line numbers
-(global-linum-mode 1)
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers-mode)
+
 
 (defun current-line-empty-p ()
   (save-excursion
