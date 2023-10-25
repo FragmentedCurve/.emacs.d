@@ -97,6 +97,10 @@
 
 ;; End security packages
 
+(use-package evil
+  :config
+  (evil-mode))
+
 (use-package dabbrev
   :defer t
   :init (setf abbrev-file-name (locate-user-emacs-file "local/abbrev_defs"))
@@ -222,15 +226,6 @@
   :config
   (setq org-bullets-face-name 'org-bullet-face
 	org-bullets-bullet-list '("◉" "⁑" "⁂" "❖" "✮" "✱" "✸")))
-
-(use-package multiple-cursors
-  :ensure t
-  :bind (("C-c m e" . 'mc/edit-lines)
-         ("C-c m E" . 'mc/edit-ends-of-lines)
-         ("C-c m ." . 'mc/mark-pop)
-         ("C-c m n" . 'mc/mark-next-like-this)
-         ("C-c m A" . 'mc/mark-all-in-region)
-         ("M-<down-mouse-1>" . 'mc/add-cursor-on-click)))
 
 (use-package whitespace
   :bind
