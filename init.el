@@ -319,16 +319,6 @@
   :ensure t
   :init (which-key-mode))
 
-(use-package lsp-mode
-  ;; Provides the language server protocol.
-  :ensure t
-  :hook ((c-mode   . lsp)
-	 (c++-mode . lsp)
-	 (go-mode  . lsp)) ; OS Dependency: gopls
-  :config
-  (setq lsp-enable-on-type-formatting  nil
-	lsp-enable-indentation         nil))
-
 (use-package treemacs
   ;; IDE-like project directories & workspaces. 
   :ensure t
@@ -339,7 +329,6 @@
   :hook (html-mode-hook . (lambda()
 			    (setq sgml-basic-offset 4)
 			    (setq indent-tabs-mode t))))
-
 (use-package mu4e
   :bind ("C-c M-m" . 'mu4e)
   :config
@@ -359,7 +348,6 @@
   (setq mu4e-get-mail-command "mbsync privateemail"
 	mu4e-change-filenames-when-moving t))
 
-
 (use-package smtpmail
   :defer t
   :config
@@ -376,16 +364,11 @@
 
 ;; "Ensure" the following packages are installed.
 
-(use-package lsp-pascal :ensure t)
-(use-package lsp-docker :ensure t)
-(use-package lsp-scheme :ensure t)
-(use-package lsp-treemacs :ensure t)
-(use-package ccls :ensure t)             ; C/C++ lsp
 (use-package go-mode :ensure t)
 (use-package calfw-org :ensure t)
 (use-package markdown-mode :ensure t :defer t)
-(use-package company :ensure t)
-(use-package helm-xref :ensure t)
+(use-package company :ensure t)          ; Text completion framework 
+;(use-package helm-xref :ensure t)
 (use-package khardel :ensure t :defer t) ; Contacts
 (use-package ein :ensure t)              ; For Jupyter notebooks
 
