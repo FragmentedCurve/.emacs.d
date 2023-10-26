@@ -321,7 +321,7 @@
 
 (use-package treemacs
   ;; IDE-like project directories & workspaces. 
-  :ensure t
+  ;:ensure t
   :bind ("C-c M-t" . 'treemacs))
 
 (use-package html-mode
@@ -329,6 +329,7 @@
   :hook (html-mode-hook . (lambda()
 			    (setq sgml-basic-offset 4)
 			    (setq indent-tabs-mode t))))
+
 (use-package mu4e
   :bind ("C-c M-m" . 'mu4e)
   :config
