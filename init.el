@@ -90,8 +90,8 @@
 		auth-source-pass-filename "~/.password-store"   ; Defaults to ~/.password-store.
 		auth-source-pass-port-separator ":"))           ; Defaults to ":".
 
-(defun secure-set (var) (set var (secure-get var)))
-(defun secure-get (var) (password-store-get-field "emacs" (symbol-name var)))
+;(defun secure-set (var) (set var (secure-get var)))
+;(defun secure-get (var) (password-store-get-field "emacs" (symbol-name var)))
 ;(defmacro secure-getq (var) (secure-get ,var))
 ;(defmacro secure-setq (var) (secure-set ,var))
 
@@ -259,12 +259,11 @@
   :ensure t
   :bind ("C-c u" . 'org-caldav-sync)
   :config
-  (secure-set 'org-caldav-url)
   (setq org-icalendar-include-todo t
 	org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
 	org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
 	org-icalendar-with-timestamps t
-	org-caldav-calendars `((:calendar-id ,(secure-get 'calendar-id)
+	org-caldav-calendars `((:calendar-id "Y2FsOi8vMC8yNg"
 					     :files ("~/.calendar.org" "~/.tasks.org")
 					     :inbox "~/.calendar.org"))))
 
@@ -333,10 +332,7 @@
 (use-package mu4e
   :bind ("C-c M-m" . 'mu4e)
   :config
-  (secure-set 'user-mail-address)
-  (secure-set 'user-full-name)
   (setq mail-user-agent 'mu4e-user-agent)
-  (secure-set 'mu4e-compose-reply-to-address)
   (setq mu4e-sent-folder   "/Sent"
 	mu4e-drafts-folder "/Drafts"
 	mu4e-trash-folder  "/Trash"
@@ -354,9 +350,7 @@
   :config
   (setq message-send-mail-function 'smtpmail-send-it
         smtpmail-stream-type  'ssl
-        smtpmail-smtp-service 465)
-  (secure-set 'smtpmail-smtp-user)
-  (secure-set 'smtpmail-smtp-server))
+        smtpmail-smtp-service 465))
 
 (use-package slime
   :ensure t
@@ -372,5 +366,11 @@
 ;(use-package helm-xref :ensure t)
 (use-package khardel :ensure t :defer t) ; Contacts
 (use-package ein :ensure t)              ; For Jupyter notebooks
+
+;; Load secrets.el if it exists.
+(setq emacs-secrets "~/.emacs.d/.secrets.el")
+(when (and (file-readable-p emacs-secrets)
+	   (= #o600 (file-modes emacs-secrets))
+  (load emacs-secrets)))
 
 (provide 'init) ; make (require 'init) happy

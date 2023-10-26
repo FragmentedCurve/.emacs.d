@@ -5,3 +5,4 @@ site-lisp/
 auto-save-list/
 .cask/
 *.elc
+.secrets.el
