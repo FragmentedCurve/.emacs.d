@@ -36,6 +36,7 @@
 
 ;; Some global keybindings
 (global-set-key (kbd "C-x k") #'kill-this-buffer)
+(global-set-key (kbd "C-l") (lambda () (interactive) (insert ?λ)))
 
 ;;; auto-mode-alist entries
 (add-to-list 'auto-mode-alist '("\\.mom$" . nroff-mode))
@@ -68,7 +69,9 @@
 
 ;;; Individual package configurations
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Configure security packages first
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package pinentry
   ;; Needed for password-store & auth-source.
@@ -90,16 +93,50 @@
 		auth-source-pass-filename "~/.password-store"   ; Defaults to ~/.password-store.
 		auth-source-pass-port-separator ":"))           ; Defaults to ":".
 
-;(defun secure-set (var) (set var (secure-get var)))
-;(defun secure-get (var) (password-store-get-field "emacs" (symbol-name var)))
-;(defmacro secure-getq (var) (secure-get ,var))
-;(defmacro secure-setq (var) (secure-set ,var))
 
-;; End security packages
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;    Packages installed via gpkg
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package evil
+(use-package elfeed
+  ;; RSS reader.
+  :defer t
+  :bind ("C-x w" . elfeed)
+  :init (setf url-queue-timeout 30)
   :config
-  (evil-mode))
+  (push "-k" elfeed-curl-extra-arguments)
+  (setf bookmark-default-file (locate-user-emacs-file "local/bookmarks")))
+
+(use-package elfeed-org
+  ;; Organize elfeed feeds with an org-mode document.
+  :init
+  (elfeed-org)
+  :config
+  (setq rmh-elfeed-org-files (list "~/.feed.org")))
+
+(use-package org-bullets
+  ;; Replace the asterisks for org-mode sections with pretty bullets.
+  ;;:ensure t
+  :hook (org-mode . (lambda () (org-bullets-mode 1)))
+  :config
+  (setq org-bullets-face-name 'org-bullet-face
+	org-bullets-bullet-list '("◉" "⁑" "⁂" "❖" "✮" "✱" "✸")))
+
+
+(use-package multiple-cursors
+  :bind (("C-c m e" . 'mc/edit-lines)
+         ("C-c m E" . 'mc/edit-ends-of-lines)
+         ("C-c m ." . 'mc/mark-pop)
+         ("C-c m n" . 'mc/mark-next-like-this)
+         ("C-c m A" . 'mc/mark-all-in-region)
+         ("M-<down-mouse-1>" . 'mc/add-cursor-on-click)))
+
+(use-package simpc-mode)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;    Default Emacs Packages
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package dabbrev
   :defer t
@@ -117,22 +154,6 @@
             ("\\(\\.ods\\|\\.xlsx?\\|\\.docx?\\|\\.csv\\)\\'" "libreoffice")
             ("\\(\\.png\\|\\.jpe?g\\)\\'" "qiv")
             ("\\.gif\\'" "animate")))))
-
-(use-package elfeed
-  ;; RSS reader.
-  :defer t
-  :bind ("C-x w" . elfeed)
-  :init (setf url-queue-timeout 30)
-  :config
-  (push "-k" elfeed-curl-extra-arguments)
-  (setf bookmark-default-file (locate-user-emacs-file "local/bookmarks")))
-
-(use-package youtube-dl
-  :defer t
-  :bind ("C-x y" . youtube-dl-list)
-  :config
-  (setq youtube-dl-program "yt-dlp" ; yt-dlp is much faster
-	youtube-dl-directory "~/youtube/"))
 
 (use-package lisp-mode
   :defer t
@@ -155,12 +176,6 @@
           display-time-use-mail-icon t
           display-time-24hr-format t)
     (display-time-mode t)))
-
-(use-package modus-themes
-  :ensure t
-  :config
-  (load-theme 'modus-vivendi t)
-  (global-hl-line-mode 1))
 
 (use-package simple
   :defer t
@@ -201,81 +216,6 @@
   (when (executable-find "surf")
     (setq browse-url-generic-program (executable-find "surf"))))
 
-(use-package uuid-simple
-  :demand t
-  :bind ("C-x !" . uuid-insert)
-  :config (random (make-uuid)))
-
-(use-package help-mode
-  :defer t
-  :config
-  (define-key help-mode-map (kbd "f") #'push-first-button))
-
-(use-package elfeed-org
-  ;; Organize elfeed feeds with an org-mode document.
-  :ensure t
-  :init
-  (elfeed-org)
-  :config
-  (setq rmh-elfeed-org-files (list "~/.feed.org")))
-
-(use-package org-bullets
-  ;; Replace the asterisks for org-mode sections with pretty bullets.
-  :ensure t
-  :hook (org-mode . (lambda () (org-bullets-mode 1)))
-  :config
-  (setq org-bullets-face-name 'org-bullet-face
-	org-bullets-bullet-list '("◉" "⁑" "⁂" "❖" "✮" "✱" "✸")))
-
-(use-package whitespace
-  :bind
-  (("\C-c w" . 'whitespace-mode)     ; Show whitespace in buffer.
-   ("\C-c r" . 'whitespace-cleanup)) ; Remove the trailing and leading whitespace.
-  :config
-  (setq whitespace-style '(face
-			   trailpassing
-			   tabs
-			   empty
-			   indention
-			   spaces
-			   space-mark
-			   space-after-tab
-			   space-before-tab
-			   tab-mark)))
-
-(use-package org
-  :bind (("C-c l" . 'org-store-link)
-         ("C-c a" . 'org-agenda)
-         ("C-c c" . 'org-capture)
-         ("C-c F" . 'org-force-cycle-archived))
-  :config
-  (setq org-agenda-files '("~/.tasks.org" "~/.calendar.org")
-	org-default-notes-file "~/.notes.org"
-	org-startup-indented t
-	org-link-abbrev-alist '(("task" . "~/.tasks.org::")
-				("cal" . "~/.calendar.org::"))))
-
-(use-package org-caldav
-  :ensure t
-  :bind ("C-c u" . 'org-caldav-sync)
-  :config
-  (setq org-icalendar-include-todo t
-	org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
-	org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
-	org-icalendar-with-timestamps t
-	org-caldav-calendars `((:calendar-id "Y2FsOi8vMC8yNg"
-					     :files ("~/.calendar.org" "~/.tasks.org")
-					     :inbox "~/.calendar.org"))))
-
-(use-package calfw
-  :ensure t
-  :config
-  (defalias 'ca 'cfw:open-org-calendar))
-
-(use-package magit
-  ;; Git frontend.
-  :bind ("M-SPC" . 'magit))
-
 (use-package term
   :bind ("M-t" . (lambda ()
                    (interactive)
@@ -302,6 +242,93 @@
 					c-lineup-gcc-asm-reg
 					c-lineup-arglist-tabs-only)))))))
 
+(use-package help-mode
+  :defer t
+  :config
+  (define-key help-mode-map (kbd "f") #'push-first-button))
+
+(use-package whitespace
+  :bind
+  (("\C-c w" . 'whitespace-mode)     ; Show whitespace in buffer.
+   ("\C-c r" . 'whitespace-cleanup)) ; Remove the trailing and leading whitespace.
+  :config
+  (setq whitespace-style '(face
+			   trailpassing
+			   tabs
+			   empty
+			   indention
+			   spaces
+			   space-mark
+			   space-after-tab
+			   space-before-tab
+			   tab-mark)))
+
+(use-package html-mode
+  :defer t
+  :hook (html-mode-hook . (lambda()
+			    (setq sgml-basic-offset 4)
+			    (setq indent-tabs-mode t))))
+
+(use-package smtpmail
+  ;; For sending email.
+  ;; Reference: https://www.gnu.org/software/emacs/manual/html_mono/smtpmail.html
+  :defer t
+  :config
+  (setq message-send-mail-function 'smtpmail-send-it
+        smtpmail-stream-type  'ssl
+        smtpmail-smtp-service 465))
+
+(use-package org
+  :bind (("C-c l" . 'org-store-link)
+         ("C-c a" . 'org-agenda)
+         ("C-c c" . 'org-capture)
+         ("C-c F" . 'org-force-cycle-archived))
+  :config
+  (setq org-agenda-files '("~/.tasks.org" "~/.calendar.org")
+	org-default-notes-file "~/.notes.org"
+	org-startup-indented t
+	org-link-abbrev-alist '(("task" . "~/.tasks.org::")
+				("cal" . "~/.calendar.org::"))))
+
+;; Local packages (from ~/.emacs.d/etc & ~/.emacs.d/lisp
+
+(use-package uuid-simple
+  :demand t
+  :bind ("C-x !" . uuid-insert)
+  :config (random (make-uuid)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;    Packages from (M)ELPA
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package modus-themes
+  :ensure t
+  :config
+  (load-theme 'modus-vivendi t)
+  (global-hl-line-mode 1))
+
+(use-package org-caldav
+  :ensure t
+  :bind ("C-c u" . 'org-caldav-sync)
+  :config
+  (setq org-icalendar-include-todo t
+	org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
+	org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
+	org-icalendar-with-timestamps t
+	org-caldav-calendars `((:calendar-id "Y2FsOi8vMC8yNg"
+					     :files ("~/.calendar.org" "~/.tasks.org")
+					     :inbox "~/.calendar.org"))))
+
+(use-package calfw
+  :ensure t
+  :config
+  (defalias 'ca 'cfw:open-org-calendar))
+
+(use-package magit
+  ;; Git frontend.
+  :ensure t
+  :bind ("M-SPC" . 'magit))
+
 (use-package helm
   ;; For completions and selectiongs of filenames, buffer names,
   ;; commands, etc.
@@ -320,14 +347,8 @@
 
 (use-package treemacs
   ;; IDE-like project directories & workspaces. 
-  ;:ensure t
+  :ensure t
   :bind ("C-c M-t" . 'treemacs))
-
-(use-package html-mode
-  :defer t
-  :hook (html-mode-hook . (lambda()
-			    (setq sgml-basic-offset 4)
-			    (setq indent-tabs-mode t))))
 
 (use-package mu4e
   :bind ("C-c M-m" . 'mu4e)
@@ -344,13 +365,6 @@
 	  (:maildir "/OpenBSD/tech" :key ?O)))
   (setq mu4e-get-mail-command "mbsync privateemail"
 	mu4e-change-filenames-when-moving t))
-
-(use-package smtpmail
-  :defer t
-  :config
-  (setq message-send-mail-function 'smtpmail-send-it
-        smtpmail-stream-type  'ssl
-        smtpmail-smtp-service 465))
 
 (use-package slime
   :ensure t
