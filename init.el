@@ -301,11 +301,14 @@
 ;;    Packages from (M)ELPA
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package modus-themes
+(use-package doom-themes
+  ;; Reference: https://github.com/doomemacs/doomemacs
+  ;; Favorite themes: doom-meltbus, doom-moonlight.
   :ensure t
   :config
-  (load-theme 'modus-vivendi t)
-  (global-hl-line-mode 1))
+  (load-theme 'doom-moonlight t)
+  (global-hl-line-mode 1)
+  (set-face-attribute hl-line-face nil :underline nil))
 
 (use-package org-caldav
   :ensure t
