@@ -29,7 +29,7 @@
 (defvar gpkg-packages ()
   "List of all installed packages.")
 
-(defvar gpkg-removal '("^t$" "^tests?$" "-pkg.el$")
+(defvar gpkg-removal '("^t$" "^tests?$" "-pkg.el$" ".+[^(\\.el)]$")
   "Files/directories in packages matching these patterns are deleted.")
 
 (defun gpkg-repository (name)
