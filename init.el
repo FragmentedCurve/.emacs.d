@@ -293,8 +293,6 @@
 ;;    Packages from (M)ELPA
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package plan9-theme :ensure t)
-
 (use-package doom-themes
   ;; Reference: https://github.com/doomemacs/doomemacs
   ;; Favorite themes: doom-meltbus, doom-moonlight, doom-nord.
