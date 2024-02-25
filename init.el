@@ -33,6 +33,7 @@
 ;; "Local" packages
 (require 'unannoy)
 (require 'extras)
+(require 'secrets)
 
 ;; Some global keybindings
 (global-set-key (kbd "C-x k") #'kill-this-buffer)
@@ -361,11 +362,6 @@
 (use-package khardel :ensure t :defer t) ; Contacts
 (use-package ein :ensure t)              ; For Jupyter notebooks
 
-;; Load secrets.el if it exists.
-(setq emacs-secrets "~/.emacs.d/.secrets.el")
-(when (and (file-readable-p emacs-secrets)
-	   (= #o600 (file-modes emacs-secrets))
-  (load emacs-secrets)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;    Mail Setup
@@ -413,5 +409,7 @@
   (message-send-mail-function 'smtpmail-send-it)
   (smtpmail-stream-type  'ssl)
   (smtpmail-smtp-service 465))
+
+(secrets-load)
 
 (provide 'init) ; make (require 'init) happy
