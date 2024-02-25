@@ -33,7 +33,6 @@
 ;; "Local" packages
 (require 'unannoy)
 (require 'extras)
-(require 'secrets)
 
 ;; Some global keybindings
 (global-set-key (kbd "C-x k") #'kill-this-buffer)
@@ -408,6 +407,8 @@
   (smtpmail-stream-type  'ssl)
   (smtpmail-smtp-service 465))
 
-(secrets-load)
+(use-package secrets
+  :config
+  (secrets-load))
 
 (provide 'init) ; make (require 'init) happy
