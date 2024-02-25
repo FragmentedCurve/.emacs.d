@@ -1,5 +1,8 @@
 (require 'gpkg)
 
+;; Remove everything that isn't an elisp file.
+(add-to-list 'gpkg-removal ".+[^(\\.el)]$")
+
 (gpkg-config
  ("use-package" "https://github.com/jwiegley/use-package"
   "2.4.4")
@@ -9,7 +12,6 @@
   "0.1.11")
  ("simpc" "https://github.com/rexim/simpc-mode.git"
   "master")
-
  ("org-bullets" "https://github.com/integral-dw/org-bullets.git"
   "master")
  ("elfeed-org" "https://github.com/remyhonig/elfeed-org.git"
