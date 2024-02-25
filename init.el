@@ -269,15 +269,6 @@
 			    (setq sgml-basic-offset 4)
 			    (setq indent-tabs-mode t))))
 
-(use-package smtpmail
-  ;; For sending email.
-  ;; Reference: https://www.gnu.org/software/emacs/manual/html_mono/smtpmail.html
-  :defer t
-  :config
-  (setq message-send-mail-function 'smtpmail-send-it
-        smtpmail-stream-type  'ssl
-        smtpmail-smtp-service 465))
-
 (use-package org
   :bind (("C-c l" . 'org-store-link)
          ("C-c a" . 'org-agenda)
@@ -355,22 +346,6 @@
   :ensure t
   :bind ("C-c M-t" . 'treemacs))
 
-(use-package mu4e
-  :bind ("C-c M-m" . 'mu4e)
-  :config
-  (setq mail-user-agent 'mu4e-user-agent)
-  (setq mu4e-sent-folder   "/Sent"
-	mu4e-drafts-folder "/Drafts"
-	mu4e-trash-folder  "/Trash"
-	mu4e-refile-folder "/Archive")
-  (setq mu4e-maildir-shortcuts
-	'((:maildir "/INBOX"   :key ?i)
-	  (:maildir "/Archive"   :key ?a)
-	  (:maildir "/Sent"    :key ?s)
-	  (:maildir "/OpenBSD/tech" :key ?O)))
-  (setq mu4e-get-mail-command "mbsync privateemail"
-	mu4e-change-filenames-when-moving t))
-
 (use-package slime
   :ensure t
   :config
@@ -391,5 +366,52 @@
 (when (and (file-readable-p emacs-secrets)
 	   (= #o600 (file-modes emacs-secrets))
   (load emacs-secrets)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;    Mail Setup
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package mu4e
+  ;; Mail reader with indexing via mu.  Installed via OS package
+  ;; manager
+  :bind ("C-c M-m" . 'mu4e)
+  :config
+  ;; I don't know why, but both mu4e-headers-buffer-name and
+  ;; mu4e-mailing-lists won't get set when under :custom.
+  (setq mu4e-headers-buffer-name "Mailbox")
+  (setq mu4e-mailing-lists '((:list-id "tech.openbsd.org"          :name "openbsd-tech")
+			     (:list-id "bugs.openbsd.org"          :name "openbsd-bugs")
+			     (:list-id "misc.openbsd.org"          :name "openbsd-misc")
+			     (:list-id "hackers.freebsd.org"       :name "freebsd-hackers")
+			     (:list-id "current.freebsd.org"       :name "freebsd-current")
+			     (:list-id "bugs.freebsd.org" :        :name "freebsd-bugs")
+			     (:list-id "freebsd-ports.freebsd.org" :name "freebsd-ports")
+			     (:list-id "drivers.freebsd.org"       :name "freebsd-drivers")))
+  :custom
+  (mu4e-headers-fields '((:human-date . 12)
+			 (:flags . 6)
+			 (:mailing-list . 15)
+			 (:from . 22)
+			 (:subject)))
+  (mail-user-agent 'mu4e-user-agent)
+  (mu4e-sent-folder   "/Sent")
+  (mu4e-drafts-folder "/Drafts")
+  (mu4e-trash-folder  "/Trash")
+  (mu4e-refile-folder "/Archive")
+  (mu4e-maildir-shortcuts '((:maildir "/INBOX"        :key ?i)
+			    (:maildir "/Archive"      :key ?a)
+			    (:maildir "/Sent"         :key ?s)
+			    (:maildir "/OpenBSD/tech" :key ?O)))
+  (mu4e-get-mail-command "mbsync privateemail")
+  (mu4e-change-filenames-when-moving t))
+
+(use-package smtpmail
+  ;; For sending email.
+  ;; Reference: https://www.gnu.org/software/emacs/manual/html_mono/smtpmail.html
+  :defer t
+  :custom
+  (message-send-mail-function 'smtpmail-send-it)
+  (smtpmail-stream-type  'ssl)
+  (smtpmail-smtp-service 465))
 
 (provide 'init) ; make (require 'init) happy
