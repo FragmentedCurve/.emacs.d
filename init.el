@@ -33,6 +33,7 @@
 ;; "Local" packages
 (require 'unannoy)
 (require 'extras)
+(require 'mvchunks)
 
 ;; Some global keybindings
 (global-set-key (kbd "C-x k") #'kill-this-buffer)
@@ -94,34 +95,10 @@
 		auth-source-pass-port-separator ":"))           ; Defaults to ":".
 
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;    Packages installed via gpkg
+;;    Various Packages Configuration
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(use-package elfeed
-  ;; RSS reader.
-  :defer t
-  :bind ("C-x w" . elfeed)
-  :init (setf url-queue-timeout 30)
-  :config
-  (push "-k" elfeed-curl-extra-arguments)
-  (setf bookmark-default-file (locate-user-emacs-file "local/bookmarks")))
-
-(use-package elfeed-org
-  ;; Organize elfeed feeds with an org-mode document.
-  :init
-  (elfeed-org)
-  :config
-  (setq rmh-elfeed-org-files (list "~/.feed.org")))
-
-(use-package org-bullets
-  ;; Replace the asterisks for org-mode sections with pretty bullets.
-  ;;:ensure t
-  :hook (org-mode . (lambda () (org-bullets-mode 1)))
-  :config
-  (setq org-bullets-face-name 'org-bullet-face
-	org-bullets-bullet-list '("◉" "⁑" "⁂" "❖" "✮" "✱" "✸")))
-
 
 (use-package multiple-cursors
   :bind (("C-c m e" . 'mc/edit-lines)
@@ -130,13 +107,6 @@
          ("C-c m n" . 'mc/mark-next-like-this)
          ("C-c m A" . 'mc/mark-all-in-region)
          ("M-<down-mouse-1>" . 'mc/add-cursor-on-click)))
-
-(use-package simpc-mode)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;    Default Emacs Packages
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package dabbrev
   :defer t
@@ -154,20 +124,6 @@
             ("\\(\\.ods\\|\\.xlsx?\\|\\.docx?\\|\\.csv\\)\\'" "libreoffice")
             ("\\(\\.png\\|\\.jpe?g\\)\\'" "qiv")
             ("\\.gif\\'" "animate")))))
-
-(use-package lisp-mode
-  :defer t
-  :config
-  (progn
-    (defun ert-all ()
-      (interactive)
-      (ert t))
-    (defun ielm-repl ()
-      (interactive)
-      (pop-to-buffer (get-buffer-create "*ielm*"))
-      (ielm))
-    (define-key emacs-lisp-mode-map (kbd "C-c C-z") #'ielm-repl)
-    (defalias 'lisp-interaction-mode 'emacs-lisp-mode)))
 
 (use-package time
   :config
@@ -221,27 +177,6 @@
                    (interactive)
                    (term shell-file-name))))
 
-(use-package c-mode
-  ;; Reference: https://www.kernel.org/doc/html/v4.10/process/coding-style.html#you-ve-made-a-mess-of-it
-  :mode "\\.c\\'"
-  :init
-  (defun c-lineup-arglist-tabs-only (ignored)
-    "Line up argument lists by tabs, not spaces"
-    (let* ((anchor (c-langelem-pos c-syntactic-element))
-           (column (c-langelem-2nd-pos c-syntactic-element))
-           (offset (- (1+ column) anchor))
-           (steps (floor offset c-basic-offset)))
-      (* (max steps 1)
-	 c-basic-offset)))
-  :hook (c-mode-common . (lambda ()
-			   ;; Add kernel style
-			   (c-add-style
-			    "linux-tabs-only"
-			    '("linux" (c-offsets-alist
-				       (arglist-cont-nonempty
-					c-lineup-gcc-asm-reg
-					c-lineup-arglist-tabs-only)))))))
-
 (use-package help-mode
   :defer t
   :config
@@ -263,34 +198,10 @@
 			   space-before-tab
 			   tab-mark)))
 
-(use-package html-mode
-  :defer t
-  :hook (html-mode-hook . (lambda()
-			    (setq sgml-basic-offset 4)
-			    (setq indent-tabs-mode t))))
-
-(use-package org
-  :bind (("C-c l" . 'org-store-link)
-         ("C-c a" . 'org-agenda)
-         ("C-c c" . 'org-capture)
-         ("C-c F" . 'org-force-cycle-archived))
-  :config
-  (setq org-agenda-files '("~/.tasks.org" "~/.calendar.org")
-	org-default-notes-file "~/.notes.org"
-	org-startup-indented t
-	org-link-abbrev-alist '(("task" . "~/.tasks.org::")
-				("cal" . "~/.calendar.org::"))))
-
-;; Local packages (from ~/.emacs.d/etc & ~/.emacs.d/lisp
-
 (use-package uuid-simple
   :demand t
   :bind ("C-x !" . uuid-insert)
   :config (random (make-uuid)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;    Packages from (M)ELPA
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package doom-themes
   ;; Reference: https://github.com/doomemacs/doomemacs
@@ -300,28 +211,6 @@
   (load-theme 'doom-moonlight t)
   (global-hl-line-mode 1)
   (set-face-attribute hl-line-face nil :underline nil))
-
-(use-package org-caldav
-  :ensure t
-  :bind ("C-c u" . 'org-caldav-sync)
-  :config
-  (setq org-icalendar-include-todo t
-	org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
-	org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
-	org-icalendar-with-timestamps t
-	org-caldav-calendars `((:calendar-id "Y2FsOi8vMC8yNg"
-					     :files ("~/.calendar.org" "~/.tasks.org")
-					     :inbox "~/.calendar.org"))))
-
-(use-package calfw
-  :ensure t
-  :config
-  (defalias 'ca 'cfw:open-org-calendar))
-
-(use-package magit
-  ;; Git frontend.
-  :ensure t
-  :bind ("M-SPC" . 'magit))
 
 (use-package helm
   ;; For completions and selectiongs of filenames, buffer names,
@@ -339,26 +228,129 @@
   :ensure t
   :init (which-key-mode))
 
+(use-package company :ensure t)          ; Text completion framework 
+;(use-package helm-xref :ensure t)
+(use-package khardel :ensure t :defer t) ; Contacts
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;    Programming Setup
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Language: Lisp
+(use-package lisp-mode
+  :defer t
+  :config
+  (progn
+    (defun ert-all ()
+      (interactive)
+      (ert t))
+    (defun ielm-repl ()
+      (interactive)
+      (pop-to-buffer (get-buffer-create "*ielm*"))
+      (ielm))
+    (define-key emacs-lisp-mode-map (kbd "C-c C-z") #'ielm-repl)
+    (defalias 'lisp-interaction-mode 'emacs-lisp-mode)))
+
+(use-package slime
+  :ensure t
+  :config (setq inferior-lisp-program "sbcl"))
+
+;; Language: C/C++
+(use-package c-mode
+  ;; Reference: https://www.kernel.org/doc/html/v4.10/process/coding-style.html#you-ve-made-a-mess-of-it
+  :mode "\\.c\\'"
+  :init
+  (defun c-lineup-arglist-tabs-only (ignored)
+    "Line up argument lists by tabs, not spaces"
+    (let* ((anchor (c-langelem-pos c-syntactic-element))
+           (column (c-langelem-2nd-pos c-syntactic-element))
+           (offset (- (1+ column) anchor))
+           (steps (floor offset c-basic-offset)))
+      (* (max steps 1)
+	 c-basic-offset)))
+  :hook (c-mode-common . (lambda ()
+			   ;; Add kernel style
+			   (c-add-style
+			    "linux-tabs-only"
+			    '("linux" (c-offsets-alist
+				       (arglist-cont-nonempty
+					c-lineup-gcc-asm-reg
+					c-lineup-arglist-tabs-only)))))))
+
+(use-package simpc-mode)
+
+;; Language: Misc.
+(use-package go-mode :ensure t) ; Golang
+(use-package ein :ensure t)     ; For Jupyter notebooks
+
+;; IDE Setup
 (use-package treemacs
   ;; IDE-like project directories & workspaces. 
   :ensure t
   :bind ("C-c M-t" . 'treemacs))
 
-(use-package slime
+(use-package magit
+  ;; Git frontend.
+  :ensure t
+  :bind ("M-SPC" . 'magit))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;    Markup Languages
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package html-mode
+  :defer t
+  :hook (html-mode-hook . (lambda()
+			    (setq sgml-basic-offset 4)
+			    (setq indent-tabs-mode t))))
+
+(use-package markdown-mode :ensure t :defer t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;    Org Mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package org
+  :bind (("C-c l" . 'org-store-link)
+         ("C-c a" . 'org-agenda)
+         ("C-c c" . 'org-capture)
+         ("C-c F" . 'org-force-cycle-archived))
+  :config
+  (setq org-agenda-files '("~/.tasks.org" "~/.calendar.org")
+	org-default-notes-file "~/.notes.org"
+	org-startup-indented t
+	org-link-abbrev-alist '(("task" . "~/.tasks.org::")
+				("cal" . "~/.calendar.org::"))))
+
+(use-package org-caldav
+  :ensure t
+  :bind ("C-c u" . 'org-caldav-sync)
+  :config
+  (setq org-icalendar-include-todo t
+	org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
+	org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
+	org-icalendar-with-timestamps t
+	org-caldav-calendars `((:calendar-id "Y2FsOi8vMC8yNg"
+					     :files ("~/.calendar.org" "~/.tasks.org")
+					     :inbox "~/.calendar.org"))))
+
+(use-package org-bullets
+  ;; Replace the asterisks for org-mode sections with pretty bullets.
+  ;;:ensure t
+  :hook (org-mode . (lambda () (org-bullets-mode 1)))
+  :config
+  (setq org-bullets-face-name 'org-bullet-face
+	org-bullets-bullet-list '("◉" "⁑" "⁂" "❖" "✮" "✱" "✸")))
+
+(use-package calfw
   :ensure t
   :config
-  (setq inferior-lisp-program "sbcl"))
+  (defalias 'ca 'cfw:open-org-calendar))
 
-;; "Ensure" the following packages are installed.
-
-(use-package go-mode :ensure t)
 (use-package calfw-org :ensure t)
-(use-package markdown-mode :ensure t :defer t)
-(use-package company :ensure t)          ; Text completion framework 
-;(use-package helm-xref :ensure t)
-(use-package khardel :ensure t :defer t) ; Contacts
-(use-package ein :ensure t)              ; For Jupyter notebooks
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;    Mail Setup
@@ -414,6 +406,27 @@
   (message-send-mail-function 'smtpmail-send-it)
   (smtpmail-stream-type  'ssl)
   (smtpmail-smtp-service 465))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;    RSS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package elfeed
+  ;; RSS reader.
+  :defer t
+  :bind ("C-x w" . elfeed)
+  :init (setf url-queue-timeout 30)
+  :config
+  (push "-k" elfeed-curl-extra-arguments)
+  (setf bookmark-default-file (locate-user-emacs-file "local/bookmarks")))
+
+(use-package elfeed-org
+  ;; Organize elfeed feeds with an org-mode document.
+  :init
+  (elfeed-org)
+  :config
+  (setq rmh-elfeed-org-files (list "~/.feed.org")))
+
 
 (use-package secrets
   :config
