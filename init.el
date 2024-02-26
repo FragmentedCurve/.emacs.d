@@ -147,6 +147,9 @@
   (setf uniquify-buffer-name-style 'post-forward-angle-brackets))
 
 (use-package winner
+  ;; Reference: https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Convenience.html
+  ;; C-c left  (winner-undo)
+  ;; C-c right (winner-redo)
   :config
   (winner-mode 1)
   (windmove-default-keybindings))
