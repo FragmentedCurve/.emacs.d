@@ -360,22 +360,26 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package mu4e
-  ;; Mail reader with indexing via mu.  Installed via OS package
-  ;; manager
-  :bind ("C-c M-m" . 'mu4e)
-  :hook (mu4e-headers-mode . (lambda () (setq cursor-type nil)))
+  :bind
+  ("C-c M-m" . 'mu4e)
+  ((:map mu4e-compose-mode-map) ("C-c i" . 'khardel-insert-email))
+  :hook
+  (mu4e-headers-mode . (lambda ()
+			 (setq cursor-type nil)))
   :config
   ;; I don't know why, but both mu4e-headers-buffer-name and
   ;; mu4e-mailing-lists won't get set when under :custom.
   (setq mu4e-headers-buffer-name "Mailbox")
-  (setq mu4e-mailing-lists '((:list-id "tech.openbsd.org"          :name "openbsd-tech")
-			     (:list-id "bugs.openbsd.org"          :name "openbsd-bugs")
-			     (:list-id "misc.openbsd.org"          :name "openbsd-misc")
-			     (:list-id "hackers.freebsd.org"       :name "freebsd-hackers")
-			     (:list-id "current.freebsd.org"       :name "freebsd-current")
-			     (:list-id "bugs.freebsd.org" :        :name "freebsd-bugs")
-			     (:list-id "freebsd-ports.freebsd.org" :name "freebsd-ports")
-			     (:list-id "drivers.freebsd.org"       :name "freebsd-drivers")))
+  (setq mu4e-mailing-lists '((:list-id "tech.openbsd.org"                 :name "openbsd-tech")
+			     (:list-id "bugs.openbsd.org"                 :name "openbsd-bugs")
+			     (:list-id "misc.openbsd.org"                 :name "openbsd-misc")
+			     (:list-id "hackers.freebsd.org"              :name "freebsd-hackers")
+			     (:list-id "current.freebsd.org"              :name "freebsd-current")
+			     (:list-id "bugs.freebsd.org" :               :name "freebsd-bugs")
+			     (:list-id "freebsd-ports.freebsd.org"        :name "freebsd-ports")
+			     (:list-id "drivers.freebsd.org"              :name "freebsd-drivers")
+			     (:list-id "6759456.owl.owl-lisp.gitlab.com"  :name "owl-lisp")
+			     (:list-id "linux-kernel.vger.kernel.org"     :name "linux-kernel")))
   :custom
   (mu4e-headers-results-limit 5000)
   (mu4e-headers-fields '((:human-date . 12)
@@ -417,7 +421,7 @@
 (use-package elfeed
   ;; RSS reader.
   :defer t
-  :bind ("C-x w" . elfeed)
+  :bind ("C-c M-f" . elfeed)
   :init (setf url-queue-timeout 30)
   :config
   (push "-k" elfeed-curl-extra-arguments)
