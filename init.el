@@ -368,6 +368,7 @@
   ;; Mail reader with indexing via mu.  Installed via OS package
   ;; manager
   :bind ("C-c M-m" . 'mu4e)
+  :hook (mu4e-headers-mode . (lambda () (setq cursor-type nil)))
   :config
   ;; I don't know why, but both mu4e-headers-buffer-name and
   ;; mu4e-mailing-lists won't get set when under :custom.
@@ -381,6 +382,7 @@
 			     (:list-id "freebsd-ports.freebsd.org" :name "freebsd-ports")
 			     (:list-id "drivers.freebsd.org"       :name "freebsd-drivers")))
   :custom
+  (mu4e-headers-results-limit 5000)
   (mu4e-headers-fields '((:human-date . 12)
 			 (:flags . 6)
 			 (:mailing-list . 15)
@@ -391,12 +393,18 @@
   (mu4e-drafts-folder "/Drafts")
   (mu4e-trash-folder  "/Trash")
   (mu4e-refile-folder "/Archive")
-  (mu4e-maildir-shortcuts '((:maildir "/INBOX"        :key ?i)
-			    (:maildir "/Archive"      :key ?a)
-			    (:maildir "/Sent"         :key ?s)
-			    (:maildir "/OpenBSD/tech" :key ?O)))
+  (mu4e-maildir-shortcuts '((:maildir "/INBOX"            :key ?i)
+			    (:maildir "/Archive"          :key ?a)
+			    (:maildir "/Sent"             :key ?s)
+			    (:maildir "/FreeBSD/hackers"  :key ?F)
+			    (:maildir "/FreeBSD/ports"    :key ?P)
+			    (:maildir "/OpenBSD/tech"     :key ?O)))
   (mu4e-get-mail-command "mbsync privateemail")
-  (mu4e-change-filenames-when-moving t))
+  (mu4e-change-filenames-when-moving t)
+  :custom-face
+  (mu4e-unread-face           ((t (:foreground "white"))))
+  (mu4e-highlight-face        ((t (:foreground "#a0a0a0" :inherit 'mu4e-header-face))))
+  (mu4e-header-highlight-face ((t (:foreground "black" :background "#aaaaaa" :underline nil )))))
 
 (use-package smtpmail
   ;; For sending email.
