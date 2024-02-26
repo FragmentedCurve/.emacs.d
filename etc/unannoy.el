@@ -20,7 +20,6 @@
 ;; GUIs are for newbs
 (menu-bar-mode -1)
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-;(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 ;; Too distracting
 (blink-cursor-mode -1)
@@ -52,10 +51,6 @@
 ;; Insert key is stupid
 (define-key global-map [(insert)] nil)
 (define-key global-map [(control insert)] 'overwrite-mode)
-
-;; I hate hitting this by accident
-;(global-set-key (kbd "C-<up>") #'previous-line)
-;(global-set-key (kbd "C-<down>") #'next-line)
 
 ;; Magit is the only front-end I care about
 (setf vc-handled-backends nil
