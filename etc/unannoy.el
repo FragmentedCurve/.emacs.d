@@ -68,7 +68,7 @@
 
 ;; Show line numbers
 (setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 ;; Set spell checker to aspell
 (setq ispell-program-name "aspell")
