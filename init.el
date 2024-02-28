@@ -106,7 +106,8 @@
          ("C-c m ." . 'mc/mark-pop)
          ("C-c m n" . 'mc/mark-next-like-this)
          ("C-c m A" . 'mc/mark-all-in-region)
-         ("M-<down-mouse-1>" . 'mc/add-cursor-on-click)))
+         ("M-<down-mouse-1>" . 'mc/add-cursor-on-click))
+  :custom (mc/always-run-for-all t))
 
 (use-package dabbrev
   :defer t
