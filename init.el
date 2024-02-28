@@ -244,17 +244,16 @@
 ;; Language: Lisp
 (use-package lisp-mode
   :defer t
-  :config
-  (progn
-    (defun ert-all ()
-      (interactive)
-      (ert t))
-    (defun ielm-repl ()
-      (interactive)
-      (pop-to-buffer (get-buffer-create "*ielm*"))
-      (ielm))
-    (define-key emacs-lisp-mode-map (kbd "C-c C-z") #'ielm-repl)
-    (defalias 'lisp-interaction-mode 'emacs-lisp-mode)))
+  :init
+  (defun ert-all ()
+    (interactive)
+    (ert t))
+  (defun ielm-repl ()
+    (interactive)
+    (pop-to-buffer (get-buffer-create "*ielm*"))
+    (ielm))
+  (defalias 'lisp-interaction-mode 'emacs-lisp-mode)
+  :bind (:map emacs-lisp-mode-map ("C-c C-z" . #'ielm-repl)))
 
 (use-package slime
   :ensure t
