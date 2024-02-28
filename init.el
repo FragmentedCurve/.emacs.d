@@ -328,6 +328,8 @@
 	org-link-abbrev-alist '(("task" . "~/.tasks.org::")
 				("cal" . "~/.calendar.org::"))))
 
+(use-package ox-man)
+
 (use-package org-caldav
   :ensure t
   :bind ("C-c u" . 'org-caldav-sync)
