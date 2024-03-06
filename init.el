@@ -326,7 +326,14 @@
 	org-default-notes-file "~/.notes.org"
 	org-startup-indented t
 	org-link-abbrev-alist '(("task" . "~/.tasks.org::")
-				("cal" . "~/.calendar.org::"))))
+				("cal" . "~/.calendar.org::")))
+  :custom-face
+  (org-level-1 ((t (:height 1.5))))
+  (org-level-2 ((t (:height 1.4))))
+  (org-level-3 ((t (:height 1.3))))
+  (org-level-4 ((t (:height 1.2))))
+  (org-level-5 ((t (:height 1.1)))))
+
 
 (use-package ox-man)
 
