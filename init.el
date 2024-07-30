@@ -305,6 +305,12 @@
 
 (use-package html-mode
   :defer t
+  :init
+  (defun html-open-buffer ()
+    (interactive)
+    (browse-url (concat "file://" (buffer-file-name))))
+  :bind
+  ("C-c O" . 'html-open-buffer)
   :hook (html-mode-hook . (lambda()
 			    (setq sgml-basic-offset 4)
 			    (setq indent-tabs-mode t))))
