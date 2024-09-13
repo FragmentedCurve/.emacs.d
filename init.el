@@ -220,6 +220,7 @@
   ;; For completions and selectiongs of filenames, buffer names,
   ;; commands, etc.
   :ensure t
+  :hook (Info-mode . (lambda () (helm-mode -1))) ; Disable for info-mode
   :bind (:map global-map
 	      ([remap find-file] . #'helm-find-files)
 	      ([remap execute-extended-command] . #'helm-M-x)
