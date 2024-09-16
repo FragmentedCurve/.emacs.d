@@ -329,6 +329,7 @@
          ("C-c c" . 'org-capture)
          ("C-c F" . 'org-force-cycle-archived))
   :config
+  (add-to-list 'org-export-backends 'md)
   (setq org-agenda-files '("~/.tasks.org" "~/.calendar.org")
 	org-default-notes-file "~/.notes.org"
 	org-startup-indented t
