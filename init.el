@@ -74,13 +74,7 @@
 ;;    Configure security packages first
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package pinentry
-  ;; Needed for password-store & auth-source.
-  ;; Reference: https://a3nm.net/git/mybin/file/my-pinentry.html
-  :ensure t
-  :init
-  (setenv "PINENTRY_USER_DATA" "emacs") ; This tells the pinentry wrapper to use /usr/bin/pinentry-emacs
-  (pinentry-start))
+(setq epg-pinentry-mode 'loopback)
 
 (use-package password-store
   ;; OS Dependency: password-store (aka pass)
