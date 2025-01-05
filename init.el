@@ -82,6 +82,12 @@
   :demand t
   :bind ("C-c M-p" . password-store-copy))
 
+(use-package password-store-otp
+  ;; OS Dependency: pass-otp
+  :ensure t
+  :demand t
+  :bind ("C-c M-o" . password-store-otp-token-copy))
+
 (use-package auth-source
   ;; Reference: https://www.gnu.org/software/emacs/manual/html_node/auth/The-Unix-password-store.html
   :config (setq auth-sources '(password-store)
