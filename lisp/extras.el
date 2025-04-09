@@ -177,6 +177,14 @@ Ignores leading comment characters."
 
 ;; Buffers
 
+(defun clone-line ()
+  (interactive)
+  (let ((m (point)))
+    (copy-region-as-kill (point-at-bol) (point-at-eol))
+    (end-of-line)
+    (newline)
+    (yank)
+    (goto-char m)))
 
 ;; Tabs
 

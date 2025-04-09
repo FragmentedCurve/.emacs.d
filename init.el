@@ -36,8 +36,10 @@
 (require 'mvchunks)
 
 ;; Some global keybindings
-(global-set-key (kbd "C-x k") #'kill-this-buffer)
-(global-set-key (kbd "C-l") (lambda () (interactive) (insert ?λ)))
+(global-set-key (kbd "C-x k") #'kill-current-buffer)
+(global-set-key (kbd "C-L") (lambda () (interactive) (insert ?λ)))
+(global-set-key (kbd "C-c C-c") #'comment-line)
+(global-set-key (kbd "C-l") #'clone-line)
 
 ;;; auto-mode-alist entries
 (add-to-list 'auto-mode-alist '("\\.mom$" . nroff-mode))
