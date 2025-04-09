@@ -177,16 +177,6 @@ Ignores leading comment characters."
 
 ;; Buffers
 
-(defun sudo-edit (&optional arg)
-  "Edit currently visited file as root.
-With a prefix ARG prompt for a file to visit.
-Will also prompt for a file to visit if current
-buffer is not visiting a file."
-  (interactive "P")
-  (if (or arg (not buffer-file-name))
-      (find-file (concat "/sudo:root@localhost:"
-                         (ido-read-file-name "Find file(as root): ")))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 ;; Tabs
 
@@ -197,31 +187,6 @@ buffer is not visiting a file."
     (setf tab-width (aref loop (mod (1+ match) (length loop))))))
 
 (global-set-key (kbd "C-h t") #'toggle-tab-width)
-
-;; Cygwin compatibility
-
-(defun cygwin-init ()
-  (let ((cygwin-root "c:/cygwin64"))
-    (unless (file-directory-p cygwin-root)
-      (error "Can't find cygwin"))
-    (setenv "PATH" (concat cygwin-root "/bin" ";" (getenv "PATH")))
-    (push (concat cygwin-root "/bin") exec-path)
-    (setf shell-file-name "bash.exe")
-    ;; Translate paths for Cygwin Git
-    (defadvice magit-expand-git-file-name
-        (before magit-expand-git-file-name-cygwin activate)
-      (save-match-data
-        (when (string-match "^/cygdrive/\\([a-z]\\)/\\(.*\\)" filename)
-          (let ((drive (match-string 1 filename))
-                (path (match-string 2 filename)))
-            (setf filename (concat drive ":/" path))))))))
-
-;; Civ 5 game search
-
-(defun filthyrobot-playlist (n)
-  (interactive "nGame number: ")
-  (browse-url
-   (format "https://www.youtube.com/results?search_query=filthyrobot+%%22game+%d%%22&filters=playlist" n)))
 
 (provide 'extras)
 
