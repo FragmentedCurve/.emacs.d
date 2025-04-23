@@ -13,11 +13,11 @@
 (make-directory (locate-user-emacs-file "local") :no-error)
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (add-to-list 'load-path
-             (format "~/.emacs.d/site-lisp/%s" emacs-version))
+	     (format "~/.emacs.d/site-lisp/%s" emacs-version))
 (add-to-list 'load-path
-             (format "~/.emacs.d/site-lisp/%s/lisp" emacs-version))
+	     (format "~/.emacs.d/site-lisp/%s/lisp" emacs-version))
 (add-to-list 'load-path
-             (format "~/.emacs.d/site-lisp/%s/etc" emacs-version))
+	     (format "~/.emacs.d/site-lisp/%s/etc" emacs-version))
 
 ;; Package bootstrap
 (load-file "~/.emacs.d/packages.el")
@@ -28,7 +28,7 @@
 
 ;; Let's use the MELPA archive
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+	     '("melpa" . "https://melpa.org/packages/"))
 
 ;; "Local" packages
 (require 'unannoy)
@@ -60,9 +60,9 @@
   (catch 'done
     (with-selected-frame (or frame (selected-frame))
       (dolist (font my-preferred-fonts)
-        (when (ignore-errors (x-list-fonts font))
-          (set-frame-font font)
-          (throw 'done nil))))))
+	(when (ignore-errors (x-list-fonts font))
+	  (set-frame-font font)
+	  (throw 'done nil))))))
 
 (defun my-set-frame-fullscreen (&optional frame)
   (set-frame-parameter frame 'fullscreen 'fullheight))
@@ -104,11 +104,11 @@
 
 (use-package multiple-cursors
   :bind (("C-c m e" . 'mc/edit-lines)
-         ("C-c m E" . 'mc/edit-ends-of-lines)
-         ("C-c m ." . 'mc/mark-pop)
-         ("C-c m n" . 'mc/mark-next-like-this)
-         ("C-c m A" . 'mc/mark-all-in-region)
-         ("M-<down-mouse-1>" . 'mc/add-cursor-on-click))
+	 ("C-c m E" . 'mc/edit-ends-of-lines)
+	 ("C-c m ." . 'mc/mark-pop)
+	 ("C-c m n" . 'mc/mark-next-like-this)
+	 ("C-c m A" . 'mc/mark-all-in-region)
+	 ("M-<down-mouse-1>" . 'mc/add-cursor-on-click))
   :custom (mc/always-run-for-all t))
 
 (use-package dabbrev
@@ -122,18 +122,18 @@
   (progn
     (add-hook 'dired-mode-hook #'toggle-truncate-lines)
     (setf dired-listing-switches "-alhG"
-          dired-guess-shell-alist-user
-          '(("\\.pdf\\'" "evince")
-            ("\\(\\.ods\\|\\.xlsx?\\|\\.docx?\\|\\.csv\\)\\'" "libreoffice")
-            ("\\(\\.png\\|\\.jpe?g\\)\\'" "qiv")
-            ("\\.gif\\'" "animate")))))
+	  dired-guess-shell-alist-user
+	  '(("\\.pdf\\'" "evince")
+	    ("\\(\\.ods\\|\\.xlsx?\\|\\.docx?\\|\\.csv\\)\\'" "libreoffice")
+	    ("\\(\\.png\\|\\.jpe?g\\)\\'" "qiv")
+	    ("\\.gif\\'" "animate")))))
 
 (use-package time
   :config
   (progn
     (setf display-time-default-load-average nil
-          display-time-use-mail-icon t
-          display-time-24hr-format t)
+	  display-time-use-mail-icon t
+	  display-time-24hr-format t)
     (display-time-mode t)))
 
 (use-package simple
@@ -168,7 +168,7 @@
   :init
   (icomplete-mode)
   :bind (:map icomplete-minibuffer-map
-              ("<C-tab>" . minibuffer-force-complete)))
+	      ("<C-tab>" . minibuffer-force-complete)))
 
 (use-package browse-url
   :defer t
@@ -180,8 +180,8 @@
 
 (use-package term
   :bind ("M-t" . (lambda ()
-                   (interactive)
-                   (term shell-file-name))))
+		   (interactive)
+		   (term shell-file-name))))
 
 (use-package help-mode
   :defer t
@@ -193,16 +193,8 @@
   (("\C-c w" . 'whitespace-mode)     ; Show whitespace in buffer.
    ("\C-c r" . 'whitespace-cleanup)) ; Remove the trailing and leading whitespace.
   :config
-  (setq whitespace-style '(face
-			   trailpassing
-			   tabs
-			   empty
-			   indention
-			   spaces
-			   space-mark
-			   space-after-tab
-			   space-before-tab
-			   tab-mark)))
+  (setq whitespace-style '(face trailing))
+  :hook (save-before . whitespace-cleanup))
 
 (use-package uuid-simple
   :demand t
@@ -235,7 +227,7 @@
   :ensure t
   :init (which-key-mode))
 
-(use-package company :ensure t)          ; Text completion framework 
+(use-package company :ensure t)          ; Text completion framework
 ;(use-package helm-xref :ensure t)
 (use-package khardel :ensure t :defer t) ; Contacts
 
@@ -270,9 +262,9 @@
   (defun c-lineup-arglist-tabs-only (ignored)
     "Line up argument lists by tabs, not spaces"
     (let* ((anchor (c-langelem-pos c-syntactic-element))
-           (column (c-langelem-2nd-pos c-syntactic-element))
-           (offset (- (1+ column) anchor))
-           (steps (floor offset c-basic-offset)))
+	   (column (c-langelem-2nd-pos c-syntactic-element))
+	   (offset (- (1+ column) anchor))
+	   (steps (floor offset c-basic-offset)))
       (* (max steps 1)
 	 c-basic-offset)))
   :hook (c-mode-common . (lambda ()
@@ -292,7 +284,7 @@
 
 ;; IDE Setup
 (use-package treemacs
-  ;; IDE-like project directories & workspaces. 
+  ;; IDE-like project directories & workspaces.
   :ensure t
   :bind ("C-c M-t" . 'treemacs))
 
@@ -327,9 +319,9 @@
 
 (use-package org
   :bind (("C-c l" . 'org-store-link)
-         ("C-c a" . 'org-agenda)
-         ("C-c c" . 'org-capture)
-         ("C-c F" . 'org-force-cycle-archived))
+	 ("C-c a" . 'org-agenda)
+	 ("C-c c" . 'org-capture)
+	 ("C-c F" . 'org-force-cycle-archived))
   :config
   (add-to-list 'org-export-backends 'md)
   (setq org-agenda-files '("~/.tasks.org" "~/.calendar.org")
