@@ -7,7 +7,7 @@
  ("use-package" "https://github.com/jwiegley/use-package"
   "2.4.4")
  ("elfeed" "https://github.com/skeeto/elfeed"
-  "3.4.1")
+  "3.4.2")
  ("fasm-mode" "https://github.com/the-little-language-designer/fasm-mode.git"
   "0.1.11")
  ("simpc" "https://github.com/rexim/simpc-mode.git"
